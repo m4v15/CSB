@@ -61,6 +61,7 @@ var renderPlayers = function(players, roundNum, dealerNum){
     tricks_input.setAttribute('id','tricks_input')
     tricks_input.setAttribute('class','tricks_input')
     tricks_input.setAttribute('for','tricks')
+    tricks_input.style.display = 'none';
 
     var tricks_select = bid_select.cloneNode(true)
     tricks_select.setAttribute('id', 'tricks')
