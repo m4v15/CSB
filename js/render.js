@@ -123,7 +123,7 @@ var createPlayers = function(round, dealerIndex, down){
 }
 
 //For when the bid submit button is pressed
-var bidListener = function(playerArray, roundNum, dealerIndex){
+var bidListener = function(playerArray, roundNum, dealerIndex, down){
   return function(event){
     var bids = document.querySelectorAll('#bid');
     var playerBids = document.querySelectorAll('#playerbid')
@@ -132,6 +132,9 @@ var bidListener = function(playerArray, roundNum, dealerIndex){
       player.bid = bids[i].value;
     })
 
+
+    console.log('bid roundnum: ', roundNum);
+    renderPlayers(playerArray, roundNum, dealerIndex)
     //change globals
     if (down && roundNum === 1){
       down = false;
@@ -140,7 +143,6 @@ var bidListener = function(playerArray, roundNum, dealerIndex){
     } else {
       roundNum +=1
     }
-    renderPlayers(playerArray, roundNum, dealerIndex)
 
     var bidinputs = document.querySelectorAll('#bid_input')
     var tricksinputs = document.querySelectorAll('#tricks_input')
@@ -179,6 +181,7 @@ var trickListener = function(playerArray, roundNum, dealerIndex, down){
       roundNum +=1
     }
 
+    console.log('trick roundnum', roundNum);
     renderPlayers(playerArray, roundNum, dealerIndex)
 
     //make things visible and invisible
