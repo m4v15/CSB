@@ -15,35 +15,45 @@ var fakePlayers = function(num){
 var renderPlayers = function(players, roundNum, dealerNum){
   var playerScores = document.querySelector('#playerScores')
   players.forEach(function(player, index){
+    //create li element for player
     var liEl = document.createElement('li');
+
+    //set class depending on dealer
     index==dealerNum ?
       liEl.setAttribute('class','player__dealer'):
       liEl.setAttribute('class','player')
+
+    //create name el
     var name = document.createElement('h2')
     name.innerText = player.name;
     name.setAttribute('id','playername')
     name.setAttribute('class','playername')
 
+    //create score el
     var score = document.createElement('h2')
     score.innerText = 'Score: '+player.score;
     score.setAttribute('id','playerscore')
     score.setAttribute('class','playerscore')
 
+    //create bid el
     var bid = document.createElement('h2')
     bid.innerText = 'Current Bid: '+player.bid;
     bid.setAttribute('id','playerbid')
     bid.setAttribute('class','playerbid')
 
+    //Bid input
     var bid_input = document.createElement('label');
     bid_input.innerText = "Bid: ";
     bid_input.setAttribute('id','bid_input')
     bid_input.setAttribute('class','bid_input')
     bid_input.setAttribute('for','bid')
 
+    //Bid drop down
     var bid_select = document.createElement('select');
     bid_select.setAttribute('id', 'bid')
     bid_select.setAttribute('name','select')
 
+    //Loop through round number to create correct drop down list
     for (var rnds=0; rnds<=roundNum; rnds++){
       var optionsNode = document.createElement('option');
       optionsNode.value = rnds;
@@ -53,6 +63,7 @@ var renderPlayers = function(players, roundNum, dealerNum){
 
     bid_input.appendChild(bid_select);
 
+    //Tricks input
     var tricks_input = document.createElement('label');
     tricks_input.innerText = "Tricks Won: ";
     tricks_input.setAttribute('id','tricks_input')
@@ -60,11 +71,12 @@ var renderPlayers = function(players, roundNum, dealerNum){
     tricks_input.setAttribute('for','tricks')
     tricks_input.style.display = 'none';
 
+    //clone bid dropdown, change attribute
     var tricks_select = bid_select.cloneNode(true)
     tricks_select.setAttribute('id', 'tricks')
-
     tricks_input.appendChild(tricks_select);
 
+    //append everything
     liEl.appendChild(name)
     liEl.appendChild(score)
     liEl.appendChild(bid)
@@ -80,7 +92,11 @@ var renderPlayers = function(players, roundNum, dealerNum){
 var createPlayers = function(round,dealerIndex){
   return function(event){
     event.preventDefault();
+
+    //get the inputs
     var playernames = document.querySelectorAll('#playerName')
+
+    //create empty, array populate with player objects
     var players = []
     playernames.forEach(function(playerName){
       var player={};
@@ -89,10 +105,13 @@ var createPlayers = function(round,dealerIndex){
       player.bid = 'n/a';
       players.push(player);
     })
+
+    //render those players
     renderPlayers(players,round,dealerIndex);
     this.style.display='none'
     bidbtn.style.display = 'block'
 
+    //pass the players object to the submit listeners
     bidbtn.addEventListener('click', bidListener(players));
     trickbtn.addEventListener('click', trickListener(players));
 
