@@ -93,7 +93,7 @@ var renderPlayers = function(players, roundNum, dealerNum){
 }
 
 //Listener for player submit, to create a player array and render to the Dom
-var createPlayers = function(round,dealerIndex){
+var createPlayers = function(round, dealerIndex, down){
   return function(event){
     event.preventDefault();
 
@@ -116,8 +116,8 @@ var createPlayers = function(round,dealerIndex){
     bidbtn.style.display = 'block'
 
     //pass the players object to the submit listeners
-    bidbtn.addEventListener('click', bidListener(players, round, dealerIndex));
-    trickbtn.addEventListener('click', trickListener(players));
+    bidbtn.addEventListener('click', bidListener(players, round, dealerIndex, down));
+    trickbtn.addEventListener('click', trickListener(players, round, dealerIndex, down));
 
   }
 }
@@ -131,56 +131,74 @@ var bidListener = function(playerArray, roundNum, dealerIndex){
     playerArray.forEach(function(player, i){
       player.bid = bids[i].value;
     })
-
+    console.log(roundNum);
+    if (down && roundNum === 1){
+      down = false;
+    } else if (down) {
+      roundNum -= 1;
+    } else {
+      roundNum +=1
+    }
     renderPlayers(playerArray, roundNum, dealerIndex)
-    
+
     var bidinputs = document.querySelectorAll('#bid_input')
     var tricksinputs = document.querySelectorAll('#tricks_input')
-    console.log('show');
     //make things visible or not
     bidinputs.forEach(function(input, i){
       input.style.display = 'none'
       tricksinputs[i].style.display = 'block'
     })
-    console.log('showed');
     this.style.display = 'none'
     trickbtn.style.display = 'block'
   }
 }
 
 //For when the trick submit button is pressed
-var trickListener = function(playerArray){
+var trickListener = function(playerArray, roundNum, dealerIndex, down){
   return function(event){
-    var bidinputs = document.querySelectorAll('#bid_input')
-    var tricksinputs = document.querySelectorAll('#tricks_input')
     var tricks = document.querySelectorAll('#tricks');
     var playerBids = document.querySelectorAll('#playerbid')
     var playerScores = document.querySelectorAll('#playerscore')
 
     playerArray.forEach(function(player, i){
       var increase = Number(tricks[i].value);
-      console.log(player.bid);
-      console.log(tricks[i].value);
       if (player.bid === tricks[i].value){
         increase +=10
       }
       player.score += increase;
-      playerScores[i].innerText = 'Score: '+player.score;
-      playerBids[i].innerText = 'Current Bid: n/a'
+      player.bid = 'n/a'
     })
+
+    //change globals
+    if (down && roundNum === 1){
+      down = false;
+    } else if (down) {
+      roundNum -= 1;
+    } else {
+      roundNum +=1
+    }
+
+    renderPlayers(playerArray, roundNum, dealerIndex)
+
     //make things visible and invisible
+    var bidinputs = document.querySelectorAll('#bid_input')
+    var tricksinputs = document.querySelectorAll('#tricks_input')
     bidinputs.forEach(function(input, i){
       input.style.display = 'block'
       tricksinputs[i].style.display = 'none'
     })
     this.style.display = 'none'
     bidbtn.style.display = 'block'
+
   }
 }
 
 var playerForm = document.getElementById('players');
 var bidbtn = document.querySelector('#submit_bid')
 var trickbtn = document.querySelector('#submit_tricks')
+var down = true
+var roundNumber = 10
+var dealer = 0;
 
-playerForm.addEventListener('submit', createPlayers(10,0));
+playerForm.addEventListener('submit', createPlayers(roundNumber, dealer, down));
 //bidListener);
