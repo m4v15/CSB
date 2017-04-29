@@ -131,7 +131,8 @@ var bidListener = function(playerArray, roundNum, dealerIndex){
     playerArray.forEach(function(player, i){
       player.bid = bids[i].value;
     })
-    console.log(roundNum);
+
+    //change globals
     if (down && roundNum === 1){
       down = false;
     } else if (down) {
