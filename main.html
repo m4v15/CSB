@@ -1,12 +1,25 @@
-<!DOCTYPE html>
+<link rel="stylesheet" href="./main.css">
+
+ <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="./main.css">
     <title>Scoreboard</title>
   </head>
   <body>
+    <form id="players" class="players" action="index.html" method="post">
+      <input id = 'playerName' type="text" name="player1" value="Mavis">
+      <input id = 'playerName' type="text" name="player2" value="Fred">
+      <input id = 'playerName' type="text" name="player3" value="Ned">
+      <input id = 'playerName' type="text" name="player4" value="Chivers">
+      <input id = 'playerName' type="text" name="player5" value="Tom">
+      <input type="submit" name="sub" value="Submit">
+    </form>
     <ul id='playerScores'>
     </ul>
+    <button id="submit_bid" type="button" name="button" style='display:none'>Submit Bids</button>
+    <button id="submit_tricks" type="button" name="button" style='display:none'>Submit tricks</button>
     <script type="text/javascript" src='./js/render.js'>
     </script>
   </body>
