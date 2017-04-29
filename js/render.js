@@ -132,8 +132,6 @@ var bidListener = function(playerArray, roundNum, dealerIndex, down){
       player.bid = bids[i].value;
     })
 
-
-    console.log('bid roundnum: ', roundNum);
     renderPlayers(playerArray, roundNum, dealerIndex)
     //change globals
     if (down && roundNum === 1){
@@ -197,12 +195,32 @@ var trickListener = function(playerArray, roundNum, dealerIndex, down){
   }
 }
 
+var numSelect = document.querySelector('#NumPlayers')
+var roundSelect = document.querySelector('#NumRounds')
+var roundDiv = document.querySelector('#roundSetup')
 var playerForm = document.getElementById('players');
 var bidbtn = document.querySelector('#submit_bid')
 var trickbtn = document.querySelector('#submit_tricks')
 var down = true
 var roundNumber = 10
 var dealer = 0;
+
+var makeRoundDrop = function(){
+  return function(event){
+    var playerCount = (numSelect.value);
+    var maxRound = Math.floor(52 / playerCount);
+    roundSelect.innerHTML='';
+    for (var looper=1; looper<=maxRound; looper++){
+      var optNode = document.createElement('option');
+      optNode.setAttribute('value', looper)
+      optNode.innerText = looper;
+      roundSelect.appendChild(optNode)
+    }
+    roundDiv.style.display = 'inline-block';
+  }
+}
+numSelect.addEventListener('change', makeRoundDrop())
+
 
 playerForm.addEventListener('submit', createPlayers(roundNumber, dealer, down));
 //bidListener);
