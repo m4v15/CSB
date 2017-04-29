@@ -90,6 +90,8 @@ var renderPlayers = function(players, roundNum, dealerNum){
     newPlayerScores.appendChild(liEl);
   })
   document.body.replaceChild(newPlayerScores, oldPlayerScores)
+  roundKeeper.innerText = roundNum;
+  roundKeeper.style.display = 'block';
 }
 
 //Listener for player submit, to create a player array and render to the Dom
@@ -132,8 +134,6 @@ var bidListener = function(playerArray, roundNum, dealerIndex, down){
       player.bid = bids[i].value;
     })
 
-
-    console.log('bid roundnum: ', roundNum);
     renderPlayers(playerArray, roundNum, dealerIndex)
     //change globals
     if (down && roundNum === 1){
@@ -142,6 +142,12 @@ var bidListener = function(playerArray, roundNum, dealerIndex, down){
       roundNum -= 1;
     } else {
       roundNum +=1
+    }
+
+    if (dealerIndex!==playerArray.length-1){
+      dealerIndex+=1;
+    } else {
+      dealerIndex = 0;
     }
 
     var bidinputs = document.querySelectorAll('#bid_input')
@@ -181,7 +187,12 @@ var trickListener = function(playerArray, roundNum, dealerIndex, down){
       roundNum +=1
     }
 
-    console.log('trick roundnum', roundNum);
+    if (dealerIndex!==playerArray.length-1){
+      dealerIndex+=1;
+    } else {
+      dealerIndex = 0;
+    }
+
     renderPlayers(playerArray, roundNum, dealerIndex)
 
     //make things visible and invisible
@@ -197,12 +208,57 @@ var trickListener = function(playerArray, roundNum, dealerIndex, down){
   }
 }
 
+var makeRoundDrop = function(){
+  return function(event){
+    var playerCount = (playerNumSelect.value);
+    var maxRound = Math.floor(52 / playerCount);
+    roundSelect.innerHTML='<option></option>';
+    for (var looper=maxRound; looper>=1; looper--){
+      var optNode = document.createElement('option');
+      optNode.setAttribute('value', looper)
+      optNode.innerText = looper;
+      roundSelect.appendChild(optNode)
+    }
+    roundDiv.style.display = 'inline-block';
+  }
+}
+
+var makePlayerForm = function(){
+  return function(event){
+    var roundNumber = roundSelect.value;
+    var playerNumber = playerNumSelect.value;
+    for (var looper=1; looper<=playerNumber; looper++){
+      var inputNode = document.createElement('input');
+      inputNode.setAttribute('id', 'playerName')
+      inputNode.setAttribute('type', 'text')
+      inputNode.setAttribute('name', 'player'+looper);
+      inputNode.setAttribute('value', 'player'+looper);
+      playerForm.appendChild(inputNode)
+    }
+    var submitNode = document.createElement('input');
+    submitNode.setAttribute('type','submit');
+    submitNode.setAttribute('name','sub');
+    submitNode.setAttribute('value','Submit');
+    playerForm.appendChild(submitNode);
+
+    playerForm.addEventListener('submit', createPlayers(roundNumber, dealer, down));
+
+    setupDiv.style.display = 'none'
+  }
+}
+
+var setupDiv = document.querySelector('#setup');
+var playerNumSelect = document.querySelector('#NumPlayers')
+var roundSelect = document.querySelector('#NumRounds')
+var roundDiv = document.querySelector('#roundSetup')
+var roundKeeper = document.querySelector('#roundKeeper')
 var playerForm = document.getElementById('players');
 var bidbtn = document.querySelector('#submit_bid')
 var trickbtn = document.querySelector('#submit_tricks')
 var down = true
-var roundNumber = 10
 var dealer = 0;
 
-playerForm.addEventListener('submit', createPlayers(roundNumber, dealer, down));
+playerNumSelect.addEventListener('change', makeRoundDrop());
+roundSelect.addEventListener('change', makePlayerForm());
+
 //bidListener);
