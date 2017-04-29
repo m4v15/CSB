@@ -8,8 +8,8 @@
     <title>Scoreboard</title>
   </head>
   <body>
-    <div class=setup>
-        <div class="playerSetup">
+    <div class=setup id="setup">
+        <div class="playerSetup" id="playerSetup">
           <label for=NumPlayers>How many players?</label>
           <select name=NumPlayers id=NumPlayers>
             <option value=4>4</option>
@@ -22,19 +22,14 @@
           </select>
         </div>
         <div class="roundSetup" id ="roundSetup" style='display:none'>
-          <label for=NumRounds id='roundQ'>How many players?</label>
+          <label for=NumRounds id='roundQ'>Highest Round Number?</label>
           <select name=NumRounds id=NumRounds>
           </select>
         </div>
     </div>
-    <form id=players class=players action=index.html method=post>
-      <input id = 'playerName' type=text name=player1 value=Mavis>
-      <input id = 'playerName' type=text name=player2 value=Fred>
-      <input id = 'playerName' type=text name=player3 value=Ned>
-      <input id = 'playerName' type=text name=player4 value=Chivers>
-      <input id = 'playerName' type=text name=player5 value=Tom>
-      <input type=submit name=sub value=Submit>
+    <form id=players class=players action="" method=post>
     </form>
+    <p id="roundKeeper" class="roundKeeper" style='display:none'></p>
     <ul id='playerScores'>
     </ul>
     <button id=submit_bid type=button name=button style='display:none'>Submit Bids</button>
