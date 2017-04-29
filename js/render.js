@@ -11,10 +11,7 @@ var fakePlayers = function(num){
   return players
 }
 
-var fplayers = fakePlayers(5);
-
 //Function that takes an array of players and renders li element for their attributes and also inputs
-
 var renderPlayers = function(players, roundNum, dealerNum){
   var playerScores = document.querySelector('#playerScores')
   players.forEach(function(player, index){
@@ -79,4 +76,82 @@ var renderPlayers = function(players, roundNum, dealerNum){
   })
 }
 
-renderPlayers(fplayers,10,3);
+//Listener for player submit, to create a player array and render to the Dom
+var createPlayers = function(round,dealerIndex){
+  return function(event){
+    event.preventDefault();
+    var playernames = document.querySelectorAll('#playerName')
+    var players = []
+    playernames.forEach(function(playerName){
+      var player={};
+      player.name = playerName.value
+      player.score = 0;
+      player.bid = 'n/a';
+      players.push(player);
+    })
+    renderPlayers(players,round,dealerIndex);
+    this.style.display='none'
+    bidbtn.style.display = 'block'
+
+    bidbtn.addEventListener('click', bidListener(players));
+    trickbtn.addEventListener('click', trickListener(players));
+
+  }
+}
+
+//For when the bid submit button is pressed
+var bidListener = function(playerArray){
+  return function(event){
+    var bidinputs = document.querySelectorAll('#bid_input')
+    var tricksinputs = document.querySelectorAll('#tricks_input')
+    var bids = document.querySelectorAll('#bid');
+    var playerBids = document.querySelectorAll('#playerbid')
+
+    playerBids.forEach(function(playerBid, i){
+      playerBid.innerText = 'Current Bid: '+bids[i].value;
+      playerArray[i].bid = bids[i].value;
+    })
+    //make things visible or not
+    bidinputs.forEach(function(input, i){
+      input.style.display = 'none'
+      tricksinputs[i].style.display = 'block'
+    })
+    this.style.display = 'none'
+    trickbtn.style.display = 'block'
+  }
+}
+
+//For when the trick submit button is pressed
+var trickListener = function(playerArray){
+  return function(event){
+    var bidinputs = document.querySelectorAll('#bid_input')
+    var tricksinputs = document.querySelectorAll('#tricks_input')
+    var tricks = document.querySelectorAll('#tricks');
+    var playerBids = document.querySelectorAll('#playerbid')
+    var playerScores = document.querySelectorAll('#playerscore')
+
+    playerArray.forEach(function(player, i){
+      var increase = Number(tricks[i].value);
+      if (player.bid === tricks[i].value){
+        increase +=10
+      }
+      player.score += increase;
+      playerScores[i].innerText = 'Score: '+player.score;
+      playerBids[i].innerText = 'Current Bid: n/a'
+    })
+    //make things visible and invisible
+    bidinputs.forEach(function(input, i){
+      input.style.display = 'block'
+      tricksinputs[i].style.display = 'none'
+    })
+    this.style.display = 'none'
+    bidbtn.style.display = 'block'
+  }
+}
+
+var playerForm = document.getElementById('players');
+var bidbtn = document.querySelector('#submit_bid')
+var trickbtn = document.querySelector('#submit_tricks')
+
+playerForm.addEventListener('submit', createPlayers(10,0));
+//bidListener);
