@@ -192,7 +192,6 @@ var trickListener = function(playerArray, roundNum, dealerIndex, down){
     } else {
       dealerIndex = 0;
     }
-    console.log(dealerIndex);
 
     renderPlayers(playerArray, roundNum, dealerIndex)
 
@@ -213,8 +212,8 @@ var makeRoundDrop = function(){
   return function(event){
     var playerCount = (playerNumSelect.value);
     var maxRound = Math.floor(52 / playerCount);
-    roundSelect.innerHTML='';
-    for (var looper=1; looper<=maxRound; looper++){
+    roundSelect.innerHTML='<option></option>';
+    for (var looper=maxRound; looper>=1; looper--){
       var optNode = document.createElement('option');
       optNode.setAttribute('value', looper)
       optNode.innerText = looper;
