@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/m4v15/CSB/issues"
   },
-  "homepage": "https://github.com/m4v15/CSB#readme"
+  "homepage": "https://github.com/m4v15/CSB#readme",
+  "dependencies": {
+    "express-handlebars": "^3.0.0"
+  }
 }
