@@ -1,17 +1,19 @@
-<link rel=stylesheet href=./main.css>
-
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset=utf-8>
-    <link rel=stylesheet href=./main.css>
+    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.7.0/css/tachyons.min.css"/>
     <title>Scoreboard</title>
   </head>
-  <body>
-    <div class=setup id="setup">
-        <div class="playerSetup" id="playerSetup">
-          <label for=NumPlayers>How many players?</label>
-          <select name=NumPlayers id=NumPlayers>
+  <body class="helvetica flex flex-column min-vh-100">
+    <header class="f1 bg-near-black white-80 pv1 pv1-l ph1 tc">
+      Connie Scoreboard App
+    </header>
+    <main id='main-div' class="flex-auto gray bg-near-white">
+      <div class="center tc f2" id="setup">
+        <div id="playerSetup">
+          <label for=NumPlayers>How many players?</label><br>
+          <select class="input-reset" name=NumPlayers id=NumPlayers>
             <option></option>
             <option value=4>4</option>
             <option value=5>5</option>
@@ -22,19 +24,25 @@
             <option value=10>10</option>
           </select>
         </div>
-        <div class="roundSetup" id ="roundSetup" style='display:none'>
-          <label for=NumRounds id='roundQ'>Highest Round Number?</label>
+        <div id ="roundSetup" style='display:none'>
+          <label for=NumRounds id='roundQ'>Highest Round Number?</label><br>
           <select name=NumRounds id=NumRounds>
           </select>
         </div>
-    </div>
-    <form id=players class=players action="" method=post>
-    </form>
-    <p id="roundKeeper" class="roundKeeper" style='display:none'></p>
-    <ul id='playerScores'>
-    </ul>
-    <button id=submit_bid type=button name=button style='display:none'>Submit Bids</button>
-    <button id=submit_tricks type=button name=button style='display:none'>Submit tricks</button>
+      </div>
+      <form id=players action="" method=post>
+      </form>
+      <p id="roundKeeper" class="tc f3 pv1 ph1 mv1"style='display:none'></p>
+      <article class="dt dt--fixed" id='playerScores'>
+      </article>
+      <button id=submit_bid type=button name=button style='display:none'>Submit Bids</button>
+      <button id=submit_tricks type=button name=button style='display:none'>Submit tricks</button>
+    </main>
+    <footer class="bg-near-black white-80 pv1 pv1-l ph1">
+      <p class="f6"><span class="dib mr4 mr5-ns">©2017 Connie MLC, Inc.</span>
+        <a class="link white-80 hover-silver" href="#">hi@mlc.com </a>
+      </p>
+    </footer>
     <script type=text/javascript src='./js/render.js'>
     </script>
   </body>

@@ -14,42 +14,45 @@ var fakePlayers = function(num){
 //Function that takes an array of players and renders li element for their attributes and also inputs
 var renderPlayers = function(players, roundNum, dealerNum){
   var oldPlayerScores = document.querySelector('#playerScores')
-  var newPlayerScores = document.createElement('ul')
-  newPlayerScores.setAttribute('class', 'playerScores');
+  var newPlayerScores = document.createElement('article')
+  newPlayerScores.setAttribute('class', 'cf');
   newPlayerScores.setAttribute('id', 'playerScores');
 
   players.forEach(function(player, index){
     //create li element for player
-    var liEl = document.createElement('li');
+    var divEl = document.createElement('div');
 
-    //set class depending on dealer
-    index==dealerNum ?
-      liEl.setAttribute('class','player__dealer'):
-      liEl.setAttribute('class','player')
+    divEl.setAttribute('class','fl w-50 bg-light-gray tc ba b--black-10 br3');
 
     //create name el
+    var nameDiv = document.createElement('div')
+    nameDiv.setAttribute('class', 'tc');
     var name = document.createElement('h2')
     name.innerText = player.name;
     name.setAttribute('id','playername')
-    name.setAttribute('class','playername')
+    name.setAttribute('class','f4')
+    var breaker = document.createElement('hr')
+    breaker.setAttribute('class', 'mw3 bb bw1 b--black-10')
+    nameDiv.appendChild(name);
+    nameDiv.appendChild(breaker)
 
     //create score el
-    var score = document.createElement('h2')
+    var score = document.createElement('h3')
     score.innerText = 'Score: '+player.score;
     score.setAttribute('id','playerscore')
-    score.setAttribute('class','playerscore')
+    score.setAttribute('class','f6')
 
     //create bid el
-    var bid = document.createElement('h2')
+    var bid = document.createElement('h3')
     bid.innerText = 'Current Bid: '+player.bid;
     bid.setAttribute('id','playerbid')
-    bid.setAttribute('class','playerbid')
+    bid.setAttribute('class','f6')
 
     //Bid input
     var bid_input = document.createElement('label');
     bid_input.innerText = "Bid: ";
     bid_input.setAttribute('id','bid_input')
-    bid_input.setAttribute('class','bid_input')
+    bid_input.setAttribute('class','f6')
     bid_input.setAttribute('for','bid')
 
     //Bid drop down
@@ -71,7 +74,7 @@ var renderPlayers = function(players, roundNum, dealerNum){
     var tricks_input = document.createElement('label');
     tricks_input.innerText = "Tricks Won: ";
     tricks_input.setAttribute('id','tricks_input')
-    tricks_input.setAttribute('class','tricks_input')
+    tricks_input.setAttribute('class','f6')
     tricks_input.setAttribute('for','tricks')
     tricks_input.style.display = 'none';
 
@@ -80,16 +83,21 @@ var renderPlayers = function(players, roundNum, dealerNum){
     tricks_select.setAttribute('id', 'tricks')
     tricks_input.appendChild(tricks_select);
 
-    //append everything
-    liEl.appendChild(name)
-    liEl.appendChild(score)
-    liEl.appendChild(bid)
-    liEl.appendChild(bid_input)
-    liEl.appendChild(tricks_input);
+    if (index===dealerNum){
+      divEl.setAttribute('class','fl w-50 bg-near-black tc ba b--white-10 br3');
+      breaker.setAttribute('class', 'mw3 bb bw1 b--white-10')
+    }
 
-    newPlayerScores.appendChild(liEl);
+    //append everything
+    divEl.appendChild(nameDiv)
+    divEl.appendChild(score)
+    divEl.appendChild(bid)
+    divEl.appendChild(bid_input)
+    divEl.appendChild(tricks_input);
+
+    newPlayerScores.appendChild(divEl);
   })
-  document.body.replaceChild(newPlayerScores, oldPlayerScores)
+  main.replaceChild(newPlayerScores, oldPlayerScores)
   roundKeeper.innerText = roundNum;
   roundKeeper.style.display = 'block';
 }
@@ -231,8 +239,8 @@ var makePlayerForm = function(){
       var inputNode = document.createElement('input');
       inputNode.setAttribute('id', 'playerName')
       inputNode.setAttribute('type', 'text')
-      inputNode.setAttribute('name', 'player'+looper);
-      inputNode.setAttribute('value', 'player'+looper);
+      inputNode.setAttribute('name', 'Player '+looper);
+      inputNode.setAttribute('value', 'Player '+looper);
       playerForm.appendChild(inputNode)
     }
     var submitNode = document.createElement('input');
@@ -248,6 +256,7 @@ var makePlayerForm = function(){
 }
 
 var setupDiv = document.querySelector('#setup');
+var main = document.querySelector('#main-div')
 var playerNumSelect = document.querySelector('#NumPlayers')
 var roundSelect = document.querySelector('#NumRounds')
 var roundDiv = document.querySelector('#roundSetup')
