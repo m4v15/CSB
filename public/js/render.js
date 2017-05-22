@@ -267,7 +267,33 @@ var trickbtn = document.querySelector('#submit_tricks')
 var down = true
 var dealer = 0;
 
+
 playerNumSelect.addEventListener('change', makeRoundDrop());
 roundSelect.addEventListener('change', makePlayerForm());
 
-//bidListener);
+//skip for CSS
+var makePlayerFormSkip = function(){
+    console.log('skipping');
+    var roundNumber = 10;
+    var playerNumber = 5;
+    for (var looper=1; looper<=playerNumber; looper++){
+      var inputNode = document.createElement('input');
+      inputNode.setAttribute('id', 'playerName')
+      inputNode.setAttribute('type', 'text')
+      inputNode.setAttribute('name', 'Player '+looper);
+      inputNode.setAttribute('value', 'Player '+looper);
+      playerForm.appendChild(inputNode)
+    }
+    var submitNode = document.createElement('input');
+    submitNode.setAttribute('type','submit');
+    submitNode.setAttribute('name','sub');
+    submitNode.setAttribute('value','Submit');
+    submitNode.setAttribute('class', 'button-reset pa2')
+    playerForm.appendChild(submitNode);
+
+    playerForm.addEventListener('submit', createPlayers(roundNumber, dealer, down));
+
+    setupDiv.style.display = 'none'
+}
+
+makePlayerFormSkip();
